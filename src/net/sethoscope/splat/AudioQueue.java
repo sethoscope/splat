@@ -3,9 +3,10 @@ package net.sethoscope.splat;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
 import java.util.Random;
-
+import java.io.File;
 import android.media.SoundPool;
 import android.media.AudioManager;
+import android.os.Environment;
 
 public class AudioQueue{
 	SoundPool pool;
@@ -18,28 +19,15 @@ public class AudioQueue{
 	public AudioQueue() {
 		
 		pool = new SoundPool(numSimultaneousSounds, AudioManager.STREAM_NOTIFICATION, 0);
-		
-		filenames.add("/mnt/sdcard/notifications/flintstone-paper-delivery.mp3");
-		filenames.add("/mnt/sdcard/notifications/fred-drops-the-ball.mp3");
-		filenames.add("/mnt/sdcard/notifications/hangout_dingtone.m4a");
-		filenames.add("/mnt/sdcard/notifications/hangout_ringtone.m4a");
-		filenames.add("/mnt/sdcard/notifications/horn.mp3");
-		filenames.add("/mnt/sdcard/notifications/Jetson's Entrance Tube Arrive.mp3");
-		filenames.add("/mnt/sdcard/notifications/pixie_and_dixie.mp3");
-		filenames.add("/mnt/sdcard/notifications/sad trombone-sadder.mp3");
-		filenames.add("/mnt/sdcard/notifications/screaming-goat.ogg");
-		filenames.add("/mnt/sdcard/notifications/squeeze chicken.mp3");
-		filenames.add("/mnt/sdcard/notifications/Squish Pop.mp3");
-		filenames.add("/mnt/sdcard/notifications/success-achievement unlocked.mp3");
-		filenames.add("/mnt/sdcard/notifications/success-choir.mp3");
-		filenames.add("/mnt/sdcard/notifications/success-level up.mp3");
-		filenames.add("/mnt/sdcard/notifications/thunk-twang.mp3");
-		filenames.add("/mnt/sdcard/notifications/Waheef and Poof.mp3");
-		filenames.add("/mnt/sdcard/notifications/Whisker_Pluck.mp3");
-		filenames.add("/mnt/sdcard/notifications/Wilhelm_tk1.wav");
-		filenames.add("/mnt/sdcard/notifications/Wilhelm_tk3.wav");
-		filenames.add("/mnt/sdcard/notifications/Wilhelm_tk4.wav");
-		
+
+		String root = Environment.getExternalStorageDirectory().getPath() + "/notifications/";
+		//FileFinder finder = new FileFinder(root);
+		File f = new File(root);
+		String []filenameList = f.list();
+		for ( int i=0; i < filenameList.length; ++i ) {
+			filenames.add(root + filenameList[i]);
+		}
+
 		refillQueue();
 	}
 	
