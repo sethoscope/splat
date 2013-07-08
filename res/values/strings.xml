@@ -3,6 +3,6 @@
 
     <string name="app_name">Splat</string>
     <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="button_image_description">splatter of red paint</string>
 
 </resources>
