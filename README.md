@@ -8,7 +8,6 @@ Things I probably ought to do:
 - add directory chooser
 - scan subdirectories
 - cull unplayable files from list
-- add About screen
 - release & publish to F-Droid & Market
 
 Extra features I will probably not get around to, but I'm writing them down here anyway:
