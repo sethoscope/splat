@@ -5,11 +5,11 @@ import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.PriorityQueue;
 import java.util.Random;
-import java.util.logging.Logger;
 import java.io.File;
 import android.os.Environment;
 import android.media.SoundPool;
 import android.media.AudioManager;
+import android.util.Log;
 
 class Sound implements Comparable<Sound> {
 
@@ -61,8 +61,6 @@ class Sound implements Comparable<Sound> {
 }
 
 public class AudioQueue {
-	private final static Logger LOGGER = Logger.getLogger(AudioQueue.class
-			.getName());
 	SoundPool pool;
 	final int numSimultaneousSounds = 5;
 	final int poolBufferSize = 8; // pre-load this many sounds
@@ -71,6 +69,7 @@ public class AudioQueue {
 	PriorityQueue<Sound> unloadQueue = new PriorityQueue<Sound>();
 	ArrayDeque<Sound> playQueue = new ArrayDeque<Sound>(poolBufferSize);
 	Random rand = new Random();
+	private final String TAG = "AudioQueue";
 
 	public AudioQueue() {
 		pool = new SoundPool(numSimultaneousSounds,
@@ -104,7 +103,7 @@ public class AudioQueue {
 			sound = new Sound(filename, soundId);
 			loadedSounds.put(filename, sound);
 		}
-		LOGGER.info("queueing " + filename);
+		Log.d(TAG, "queueing " + filename);
 		playQueue.add(sound);
 		unloadQueue.remove(sound);
 	}
@@ -118,10 +117,9 @@ public class AudioQueue {
 			if (!playQueue.contains(unloadQueue.peek())) {
 				loadedSounds.remove(sound.filename);
 				pool.unload(sound.id);
-				LOGGER.info("unloaded " + sound.filename);
+				Log.d(TAG, "unloaded " + sound.filename);
 			} else {
-				LOGGER.warning("tried to unload queued sound: "
-						+ sound.filename);
+				Log.d(TAG, "tried to unload queued sound: " + sound.filename);
 			}
 		}
 	}
@@ -135,7 +133,7 @@ public class AudioQueue {
 			return; // the queue was empty
 		}
 		play(sound.id);
-		LOGGER.info("playing " + sound.filename);
+		Log.d(TAG, "playing " + sound.filename);
 		unloadQueue.remove(sound);
 		sound.updateFinishTime();
 		if (!playQueue.contains(sound)) {
