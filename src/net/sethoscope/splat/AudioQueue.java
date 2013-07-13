@@ -135,16 +135,26 @@ public class AudioQueue {
 			return; // the queue was empty
 		}
 		play(sound.id);
-		LOGGER.info("playing " + sound.filename);		
+		LOGGER.info("playing " + sound.filename);
 		unloadQueue.remove(sound);
 		sound.updateFinishTime();
 		if (!playQueue.contains(sound)) {
 			unloadQueue.add(sound);
 		}
-		
+
 		// These could happen in another thread, but it seems fast enough.
 		refillPlayQueue();
 		unloadSounds();
+	}
+
+	/*
+	 * SoundPool has a method for releasing system resources, so we call that
+	 * when we don't need it anymore. Presumably this frees up memory a bit
+	 * faster than by waiting for garbarge collection.
+	 */
+	public void releaseResources() {
+		pool.release();
+		pool = null; // because it no longer works
 	}
 
 	private void play(int soundId) {
