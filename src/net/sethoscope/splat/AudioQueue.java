@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.PriorityQueue;
 import java.util.Random;
 import java.io.File;
-import android.os.Environment;
 import android.media.SoundPool;
 import android.media.AudioManager;
 import android.util.Log;
@@ -71,16 +70,15 @@ public class AudioQueue {
 	Random rand = new Random();
 	private final String TAG = "AudioQueue";
 
-	public AudioQueue() {
+	
+	public AudioQueue(String path) {
 		pool = new SoundPool(numSimultaneousSounds,
-				AudioManager.STREAM_MUSIC, 0);
-		String directory = Environment.getExternalStorageDirectory().getPath()
-				+ "/notifications/";
-		File f = new File(directory);
+				AudioManager.STREAM_MUSIC, 0);	
+		File f = new File(path);
 		String[] filenameList = f.list();
 		if (filenameList != null) {
 			for (int i = 0; i < filenameList.length; ++i) {
-				filenames.add(directory + filenameList[i]);
+				filenames.add(path + filenameList[i]);
 			}
 		}
 		refillPlayQueue();
