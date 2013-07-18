@@ -19,7 +19,7 @@ public class Trigger extends Activity implements View.OnClickListener {
 		setContentView(R.layout.activity_trigger);
 		
 		// Set the hardware buttons to control the music
-        this.setVolumeControlStream(AudioManager.STREAM_NOTIFICATION);
+        this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
 	}
 
 	@Override

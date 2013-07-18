@@ -73,7 +73,7 @@ public class AudioQueue {
 
 	public AudioQueue() {
 		pool = new SoundPool(numSimultaneousSounds,
-				AudioManager.STREAM_NOTIFICATION, 0);
+				AudioManager.STREAM_MUSIC, 0);
 		String directory = Environment.getExternalStorageDirectory().getPath()
 				+ "/notifications/";
 		File f = new File(directory);
