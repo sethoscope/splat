@@ -7,9 +7,16 @@
     android:gravity="center"
     android:orientation="vertical" >
 
-    <WebView
-        android:id="@+id/aboutContent"
+    <TextView
+        android:id="@+id/aboutText"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="@string/aboutText" />
+
+    <TextView
+        android:id="@+id/aboutUrl"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/url" />
 
 </LinearLayout>
