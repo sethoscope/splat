@@ -11,7 +11,10 @@
         android:id="@+id/aboutText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/aboutText" />
+        android:text="@string/aboutText"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="#b6161f"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/aboutUrl"
