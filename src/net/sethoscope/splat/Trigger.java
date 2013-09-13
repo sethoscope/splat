@@ -32,8 +32,11 @@ public class Trigger extends Activity implements View.OnTouchListener {
 		Log.d("Trigger", "getting path");
 		SharedPreferences sharedPref = getSharedPreferences(
 				getString(R.string.settings_key), Context.MODE_PRIVATE);
-		final String path = sharedPref.getString(
+		String path = sharedPref.getString(
 				getString(R.string.path_settings_key), Settings.defaultPath);
+		if ( ! path.endsWith("/") ) {
+			path = path + "/";
+		}
 		Log.d("Trigger", "got path: " + path);
 		return path;
 	}
