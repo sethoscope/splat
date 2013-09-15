@@ -49,7 +49,6 @@ class Sound implements Comparable<Sound> {
 		timeFinished = Long.valueOf(System.currentTimeMillis() + duration);
 	}
 
-	@Override
 	public int compareTo(Sound other) {
 		return timeFinished.compareTo(other.timeFinished);
 	}

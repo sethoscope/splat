@@ -41,7 +41,6 @@ public class About extends Activity implements View.OnClickListener {
 		urlView.setText(url_text);	
 	}
 
-	@Override
 	public void onClick(View v) {
 		final String url = getResources().getString(R.string.url);
 		Intent intent = new Intent(Intent.ACTION_VIEW);
