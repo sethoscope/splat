@@ -9,6 +9,8 @@ import java.io.File;
 import android.media.SoundPool;
 import android.media.AudioManager;
 import android.util.Log;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.filefilter.TrueFileFilter;
 
 class Sound implements Comparable<Sound> {
 
@@ -32,14 +34,14 @@ class Sound implements Comparable<Sound> {
 	 * gets freed.
 	 */
 
-	String filename;
+	File filename;
 	int id;
 	long duration;
 	Long timeFinished; // time in milliseconds this sound will be done playing
 	final static long SAFETY_MARGIN = 1000; // ms extra to wait
 	final static long DEFAULT_SOUND_DURATION = 20 * 1000;
 
-	Sound(String filename, int id) {
+	Sound(File filename, int id) {
 		this.filename = filename;
 		this.id = id;
 		duration = DEFAULT_SOUND_DURATION;
@@ -62,24 +64,23 @@ public class AudioQueue {
 	SoundPool pool;
 	final int numSimultaneousSounds = 5;
 	final int poolBufferSize = 8; // pre-load this many sounds
-	ArrayList<String> filenames = new ArrayList<String>();
-	HashMap<String, Sound> loadedSounds = new HashMap<String, Sound>();
+	ArrayList<File> filenames;
+	HashMap<File, Sound> loadedSounds = new HashMap<File, Sound>();
 	PriorityQueue<Sound> unloadQueue = new PriorityQueue<Sound>();
 	ArrayDeque<Sound> playQueue = new ArrayDeque<Sound>(poolBufferSize);
 	Random rand = new Random();
 	private final String TAG = "AudioQueue";
-
+		
+	private void loadFilenames(String path) {
+		final File root = new File(path);
+		filenames = new ArrayList<File>(FileUtils.listFiles(root,
+				TrueFileFilter.INSTANCE, TrueFileFilter.INSTANCE));
+	}
 	
 	public AudioQueue(String path) {
 		pool = new SoundPool(numSimultaneousSounds,
 				AudioManager.STREAM_MUSIC, 0);	
-		File f = new File(path);
-		String[] filenameList = f.list();
-		if (filenameList != null) {
-			for (int i = 0; i < filenameList.length; ++i) {
-				filenames.add(path + filenameList[i]);
-			}
-		}
+		loadFilenames(path);
 		refillPlayQueue();
 	}
 
@@ -93,10 +94,10 @@ public class AudioQueue {
 
 	void enqueueRandom() {
 		final int index = rand.nextInt(filenames.size());
-		final String filename = filenames.get(index);
+		final File filename = filenames.get(index);
 		Sound sound = loadedSounds.get(filename);
 		if (sound == null) {
-			final int soundId = pool.load(filename, 1);
+			final int soundId = pool.load(filename.getAbsolutePath(), 1);
 			sound = new Sound(filename, soundId);
 			loadedSounds.put(filename, sound);
 		}
